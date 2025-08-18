@@ -1,0 +1,9 @@
+streamlit==1.36.0
+numpy==1.26.4
+pandas==2.2.2
+scipy==1.11.4
+matplotlib==3.8.2
+plotly==5.22.0
+CoolProp==6.6.0
+tespy==0.7.6
+fluprodia==1.4.3

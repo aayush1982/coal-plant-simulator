@@ -1,0 +1,26 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+*.log
+
+# --- Virtual environments ---
+.venv/
+env/
+venv/
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+
+# --- TESPy saved models ---
+rankine_model.json
+rankine_model.hdf5
+rankine_model
+*.cds   # TESPy case directories
+*.res   # TESPy result files
+
+# --- Streamlit cache ---
+.streamlit/
