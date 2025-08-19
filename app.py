@@ -8,13 +8,6 @@ from tespy.components import CycleCloser, Pump, Condenser, Turbine, SimpleHeatEx
 from tespy.connections import Connection
 from tespy.networks import Network
 
-# Optional: For T-s diagram
-try:
-    from fluprodia import FluidPropertyDiagram
-    FLUPRODIA_AVAILABLE = True
-except ImportError:
-    FLUPRODIA_AVAILABLE = False
-
 st.set_page_config(page_title="Coal Power Plant Simulator", layout="wide")
 st.markdown(
     "<h1 style='text-align: center; color: black;'>Coal-Fired Power Plant Simulator</h1>",
@@ -248,38 +241,7 @@ fig.update_layout(
 st.subheader("Energy Flow Diagram (Sankey)")
 st.plotly_chart(fig, use_container_width=True)
 
-# --- T-s Diagram (Optional) ---
-if FLUPRODIA_AVAILABLE:
-    st.subheader("T-s Diagram")
-    diagram = FluidPropertyDiagram('water')
-    diagram.set_unit_system(T='°C', p='bar', h='kJ/kg')
 
-    Q = np.linspace(0, 1, 11)
-    T = np.arange(0, 701, 50)
-    p = np.geomspace(0.01, 250, 8)
-    diagram.set_isolines(Q=Q, T=T, p=p)
-    diagram.calc_isolines()
-
-    s_points = []
-    T_points = []
-    for c in conns[:5]:
-        try:
-            s_points.append(c.s.val)
-            T_points.append(c.T.val)
-        except Exception:
-            pass
-
-    fig, ax = plt.subplots(figsize=(8, 6))
-    diagram.draw_isolines(fig, ax, 'Ts', x_min=0, x_max=8000, y_min=0, y_max=700)
-    if len(s_points) > 0 and len(T_points) > 0:
-        ax.plot(s_points + [s_points[0]], T_points + [T_points[0]], 'ro-', label='Cycle')
-    ax.set_xlabel('Entropy, s (kJ/kgK)')
-    ax.set_ylabel('Temperature, T (°C)')
-    ax.set_title('T-s Diagram of Rankine Cycle')
-    ax.legend()
-    st.pyplot(fig)
-else:
-    st.info("Install `fluprodia` for T-s diagram visualization: `pip install fluprodia`")
 
 st.caption("Edit parameters in the sidebar and rerun for new results.")
 
